@@ -158,7 +158,7 @@ $ python ./examples/example_stream.py
 - Input/output specifications
 
 The prediction units of the *Cochlear.ai Sense* models as well as their output examples are described below. 
-In the examples, we assume that the input is an audio file with a length of 5 seconds or an audio stream of 1 second.
+In the examples, we assume that the input is an audio file with a length of 3 seconds or an audio stream of 1 second.
 
 ##### 1. speech_detector
 > * Prediction unit (file/stream): 1 second
@@ -167,7 +167,7 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 > * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"speech": [0.972, 0.995, 1.0, 0.994, 0.992, 0.948, 0.99, 0.904, 0.981]}]}
+(file)   {"result": [{"speech": [0.972, 0.995, 1.0, 0.994, 0.992]}]}
 (stream) {"result": [{"speech": [0.972]}]}
 ```
 ##### 2. music_detector
@@ -177,7 +177,7 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 > * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"music": [0.602, 0.789, 0.515, 0.866, 1.0, 1.0, 0.751, 0.281, 0.081]}]}
+(file)   {"result": [{"music": [0.602, 0.789, 0.515, 0.866, 1.0]}]}
 (stream) {"result": [{"music": [0.602]}]}
 ```
 ##### 3. age_gender
@@ -187,9 +187,9 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 > * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"age/gender": "child", "probability": [0.173, 0.202, 0.336, 0.775, 0.997, 0.999, 0.981, 1.0, 1.0]}, 
-                     {"age/gender": "male", "probability": [0.654, 0.461, 0.125, 0.051, 0.001, 0.0, 0.011, 0.0, 0.0]}, 
-                     {"age/gender": "female", "probability": [0.173, 0.336, 0.539, 0.174, 0.002, 0.0, 0.008, 0.0, 0.0]}]}
+(file)   {"result": [{"age/gender": "child", "probability": [0.173, 0.202, 0.336, 0.775, 0.997]}, 
+                     {"age/gender": "male", "probability": [0.654, 0.461, 0.125, 0.051, 0.001]}, 
+                     {"age/gender": "female", "probability": [0.173, 0.336, 0.539, 0.174, 0.002]}]}
 (stream) {"result": [{"age/gender": "child", "probability": [0.173]}, 
                      {"age/gender": "male", "probability": [0.654]}, 
                      {"age/gender": "female", "probability": [0.173]}]}
@@ -249,7 +249,7 @@ Note that the output denotes the top-one key candidate and its corresponding pro
 > * Sample-rate (stream): 22050Hz
 > * Output examples
 ```
-(file)   {"result": [{"event": "babycry", "probability": [0.999, 1.0, 0.531, 0.091, 0.486, 0.976, 1.0, 1.0, 0.848]}]}
+(file)   {"result": [{"event": "babycry", "probability": [0.999, 1.0, 0.531, 0.091, 0.486]}]}
 (stream) {"result": [{"event": "babycry", "probability": [0.999]}]}
 ```
 
