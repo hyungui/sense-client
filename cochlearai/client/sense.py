@@ -10,6 +10,28 @@ list_of_files = ['speech_detector', 'music_detector', 'age_gender', \
  				'music_genre', 'music_mood', 'music_tempo', 'music_key', 'event']
 list_of_streams = ['speech_detector_stream', 'music_detector_stream', \
 				'age_gender_stream', 'music_genre_stream', 'music_mood_stream', 'event_stream']
+list_of_subtasks = ['babycry', 'carhorn', 'cough', 'dogbark', 'glassbreak', 'siren', 'snoring']
+
+
+class TaskError(Exception) : 
+    def __init__(self, message):
+        self.msg = message
+    def __str__(self):
+        return self.msg
+
+def checkTask(task, subtask, request_type) : 
+	if request_type == 'file' :
+		if not task in list_of_files :	
+			raise TaskError('Wrong Task : {}'.format(task))
+		elif task=='event' and not subtask in list_of_subtasks : 
+			raise TaskError('Wrong Subtask : {}'.format(subtask))
+	elif request_type == 'stream':
+		if not task in list_of_streams :	
+			raise TaskError('Wrong Task : {}'.format(task))
+		elif subtask == 'init' : 
+			pass
+		elif task=='event_stream' and not subtask in list_of_subtasks : 
+			raise TaskError('Wrong Subtask : {}'.format(subtask))
 
 def sense_file(filename,apikey,file_format,task,subtask=None):
 
@@ -30,7 +52,7 @@ def sense_file(filename,apikey,file_format,task,subtask=None):
 
 	chunks_generator = get_file_chunks(filename)
 
-	assert task in list_of_files, 'wrong task: {}'.format(task)
+	checkTask(task=task, subtask=subtask, request_type='file')
 	
 	if task == 'speech_detector':
 		response = stub.speech_detector(chunks_generator)
@@ -50,11 +72,11 @@ def sense_file(filename,apikey,file_format,task,subtask=None):
 		response = stub.event(chunks_generator)
 
 	return response.pred
-
+	
 
 class SenseStreamer(object):
 	def __init__(self,task):
-		assert task in list_of_streams, 'wrong task: {}'.format(task)
+		checkTask(task=task, subtask='init', request_type='stream')
 
 		if task == 'speech_detector_stream':
 			rate = 16000
@@ -122,12 +144,12 @@ class SenseStreamer(object):
 
 def sense_stream_request(audio_generator,apikey,task,subtask=None):
 
+	checkTask(task=task, subtask=subtask, request_type='stream')
+
 	host = 'beta.cochlear.ai:50051'
 
 	channel = grpc.insecure_channel(host)
 	stub = cochlear_sense_pb2_grpc.cochlear_senseStub(channel)
-
-	assert task in list_of_streams, 'worng task request: {}'.format(task)
 
 	if task == 'speech_detector_stream':
 		sr = 16000
@@ -153,8 +175,6 @@ def sense_stream_response(requests,task):
 
 	channel = grpc.insecure_channel(host)
 	stub = cochlear_sense_pb2_grpc.cochlear_senseStub(channel)
-
-	assert task in list_of_streams, 'wrong task from the server: {}'.format(task)
 
 	if task == 'speech_detector_stream':
 		responses = stub.speech_detector_stream(requests)

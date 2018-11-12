@@ -11,7 +11,7 @@ from cochlearai.client.sense import sense_stream_response
 
 apikey = 'Your API-key here'
 
-task = 'speech_detector_stream'
+task = 'event_stream'
 subtask = 'cough'
 
 with SenseStreamer(task) as stream:
