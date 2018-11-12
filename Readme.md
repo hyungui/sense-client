@@ -163,59 +163,63 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 ##### 1. speech_detector
 > * Prediction unit (file/stream): 1 second
 > * Inter-prediction duration (file/stream): 0.5 seconds
-> * Sample-rate (file): 16000Hz or higher
+> * Sample-rate (file): 16000Hz (recommended) or higher
 > * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"speech": [0.253, 0.662, 0.515, 0.52, 0.749, 0.24, 0.02]}]}
-(stream) {"result": [{"speech": [0.253]}]}
+(file)   {"result": [{"speech": [0.972, 0.995, 1.0, 0.994, 0.992, 0.948, 0.99, 0.904, 0.981]}]}
+(stream) {"result": [{"speech": [0.972]}]}
 ```
 ##### 2. music_detector
 > * Prediction unit (file/stream): 1 second
 > * Inter-prediction duration (file/stream): 0.5 seconds
-> * Sample-rate (file): 16000Hz or higher
+> * Sample-rate (file): 16000Hz (recommended) or higher
 > * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"music": [0.602, 0.789, 0.515, 0.751, 0.281, 0.81, 0.866]}]}
+(file)   {"result": [{"music": [0.602, 0.789, 0.515, 0.866, 1.0, 1.0, 0.751, 0.281, 0.081]}]}
 (stream) {"result": [{"music": [0.602]}]}
 ```
 ##### 3. age_gender
+> * Prediction unit (file/stream): 1 second
+> * Inter-prediction duration (file/stream): 0.5 seconds
+> * Sample-rate (file): 16000Hz (recommended) or higher
+> * Sample-rate (stream): 16000Hz
 > * Output examples
 ```
-(file)   {"result": [{"age/gender": "child", "probability": [0.042, 0.045, 0.132, 0.315, 0.293, 0.193, 0.255]}, 
-                     {"age/gender": "male", "probability": [0.219, 0.262, 0.312, 0.058, 0.705, 0.459, 0.645]}, 
-                     {"age/gender": "female", "probability": [0.739, 0.693, 0.556, 0.627, 0.002, 0.348, 0.1]}]}
+(file)   {"result": [{"age/gender": "child", "probability": [0.173, 0.202, 0.336, 0.775, 0.997, 0.999, 0.981, 1.0, 1.0]}, 
+                     {"age/gender": "male", "probability": [0.654, 0.461, 0.125, 0.051, 0.001, 0.0, 0.011, 0.0, 0.0]}, 
+                     {"age/gender": "female", "probability": [0.173, 0.336, 0.539, 0.174, 0.002, 0.0, 0.008, 0.0, 0.0]}]}
 (stream) {"result": [{"age/gender": "child", "probability": [0.042]}, 
                      {"age/gender": "male", "probability": [0.219]}, 
                      {"age/gender": "female", "probability": [0.739]}]}
 ```
 ##### 4. music_genre
-> * Prediction unit (file): entire audio
+> * Prediction unit (file): Entire audio
 > * Prediction unit (stream): 3 seconds
 > * Inter-prediction duration (file): N/A
 > * Inter-prediction duration (stream): 0.5 seconds
-> * Sample-rate (file): 22050Hz or higher
+> * Sample-rate (file): 22050Hz (recommended) or higher
 > * Sample-rate (stream): 22050Hz
 > * Output examples
 ```
-(file)   {"result": [{"genre": ["Alternative", "New-Age"], "probability": [0.658, 0.341]}]}
-(stream) {"result": [{"genre": ["Alternative", "New-Age"], "probability": [0.658, 0.341]}]}
+(file)   {"result": [{"genre": ["Alternative", "Dance"], "probability": [0.443, 0.411]}]}
+(stream) {"result": [{"genre": ["Alternative", "Dance"], "probability": [0.443, 0.411]}]}
 ```
 ##### 5. music_mood
-> * Prediction unit (file): entire audio
+> * Prediction unit (file): Entire audio
 > * Prediction unit (stream): 3 seconds
 > * Inter-prediction duration (file): N/A
 > * Inter-prediction duration (stream): 0.5 seconds
-> * Sample-rate (file): 22050Hz or higher
+> * Sample-rate (file): 22050Hz (recommended) or higher
 > * Sample-rate (stream): 22050Hz
 > * Output examples
 ```
-(file)   {"result": [{"arousal": 0.103, "valence": -0.139}]}
-(stream) {"result": [{"arousal": 0.103, "valence": -0.139}]}
+(file)   {"result": [{"arousal": 0.536, "valence": 0.029}]}
+(stream) {"result": [{"arousal": 0.536, "valence": 0.029}]}
 ```
 ##### 6. music_tempo
-> * Prediction unit (file): entire audio
+> * Prediction unit (file): Entire audio
 > * Inter-prediction duration (file): N/A
 > * Sample-rate (file): 16000Hz or higher
 > * Output examples
@@ -224,7 +228,7 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 (stream) N/A
 ```
 ##### 7. music_key
-> * Prediction unit (file): entire audio
+> * Prediction unit (file): Entire audio
 > * Inter-prediction duration (file): N/A
 > * Sample-rate (file): 16000Hz or higher
 > * Output examples
@@ -235,12 +239,12 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 ##### 8. event
 > * Prediction unit (file/stream): 1 second
 > * Inter-prediction duration (file/stream): 0.5 seconds
-> * Sample-rate (file): 22050Hz or higher
+> * Sample-rate (file): 22050Hz (recommended) or higher
 > * Sample-rate (stream): 22050Hz
 > * Output examples
 ```
-(file)   {"result": [{"event": "dogbark", "probability": [0.803, 0.911, 0.188, 0.972, 0.338, 0.219, 0.025, 0.283]}]}
-(stream) {"result": [{"event": "dogbark", "probability": [0.803]}]}
+(file)   {"result": [{"event": "babycry", "probability": [0.999, 1.0, 0.531, 0.091, 0.486, 0.976, 1.0, 1.0, 0.848]}]}
+(stream) {"result": [{"event": "babycry", "probability": [0.999]}]}
 ```
 
 
