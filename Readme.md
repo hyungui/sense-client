@@ -253,9 +253,9 @@ Note that the output denotes the top-one key candidate and its corresponding pro
 (stream) {"result": [{"event": "babycry", "probability": [0.999]}]}
 ```
 
-- Notes
-  - Audio coming directly from microphone may return unstable results.
-  - If the original sampling rate of your audio file does not match our requirement, use it as it is rather than resampling it by yourself.
+### Notes
+- Audio coming directly from microphone may return unstable results.
+- If the original sampling rate of your audio file does not match our requirement, use it as it is rather than resampling it by yourself.
 
 
 
