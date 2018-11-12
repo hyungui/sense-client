@@ -13,8 +13,7 @@ list_of_streams = ['speech_detector_stream', 'music_detector_stream', \
 
 def sense_file(filename,apikey,file_format,task,subtask=None):
 
-	host = '35.236.162.35:50051'
-	# host = 'beta.cochlear.ai'
+	host = 'beta.cochlear.ai:50051'
 
 	channel = grpc.insecure_channel(host)
 	stub = cochlear_sense_pb2_grpc.cochlear_senseStub(channel)
@@ -123,8 +122,7 @@ class SenseStreamer(object):
 
 def sense_stream_request(audio_generator,apikey,task,subtask=None):
 
-	host = '35.236.162.35:50051'
-	# host = 'beta.cochlear.ai'
+	host = 'beta.cochlear.ai:50051'
 
 	channel = grpc.insecure_channel(host)
 	stub = cochlear_sense_pb2_grpc.cochlear_senseStub(channel)
@@ -151,8 +149,7 @@ def sense_stream_request(audio_generator,apikey,task,subtask=None):
 
 def sense_stream_response(requests,task):
 
-	host = '35.236.162.35:50051'
-	# host = 'beta.cochlear.ai'
+	host = 'beta.cochlear.ai:50051'
 
 	channel = grpc.insecure_channel(host)
 	stub = cochlear_sense_pb2_grpc.cochlear_senseStub(channel)

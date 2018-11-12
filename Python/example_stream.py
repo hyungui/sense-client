@@ -9,9 +9,9 @@ from cochlearai.client.sense import SenseStreamer
 from cochlearai.client.sense import sense_stream_request
 from cochlearai.client.sense import sense_stream_response
 
-apikey = '<YOUR_API_KEY>'
+apikey = 'Your API-key here'
 
-task = 'age_gender_stream'
+task = 'speech_detector_stream'
 subtask = 'cough'
 
 with SenseStreamer(task) as stream:
