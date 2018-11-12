@@ -46,7 +46,7 @@ In other cases, the subtask will be ignored.
 
 Our beta version API includes the following major updates compared to the alpha version.
 
-- Improved Latency
+- Improved latency
 - Streaming input support
 - Example client codes of other languages (Java, Node.js)
 - Additional funcionalities
@@ -74,7 +74,7 @@ All API keys are limited to 700 audio files and 10 minute audio streams per meth
 
 
 ### Step 2. Clone this repository
-This repository contains the libraries required to utilize *Cochlear Sense API*. Copy with the code below or manually download to use.
+This repository contains the libraries required to utilize *Cochlear.ai Sense* API. Copy the code below or manually download to use.
 ```
 $ git clone https://github.com/cochlearai/sense-client
 ```
@@ -140,7 +140,7 @@ $ pip install --no-cache-dir -r requirements.txt
 
 ### Step 4. Making your gRPC call (python)
 
-The predicted values are given in units of one second for all methods except for 'music_key' and 'music_tempo'. The size of the input audio file is recommended not to exceed but not limited to 100MB.
+The predicted values are given in units of one second for all methods except for 'music_key' and 'music_tempo'. The size of the input audio file is recommended not to exceed 100MB.
 
 Note that the type of the result is not determined by the input audio but by the method you call. For example, if you call a music analysis method with a speech data, the model will regard the input as a music signal and make predictions based on its knowledge about the music. Please be aware of the kind of the audio inputs you are using.
 
@@ -157,7 +157,7 @@ $ python ./examples/example_stream.py
 
 - Input/output specifications
 
-The prediction units of the *Cochlear.ai sense* models as well as their output examples are described below. 
+The prediction units of the *Cochlear.ai Sense* models as well as their output examples are described below. 
 In the examples, we assume that the input is an audio file with a length of 5 seconds or an audio stream of 1 second.
 
 ##### 1. speech_detector
@@ -190,9 +190,9 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 (file)   {"result": [{"age/gender": "child", "probability": [0.173, 0.202, 0.336, 0.775, 0.997, 0.999, 0.981, 1.0, 1.0]}, 
                      {"age/gender": "male", "probability": [0.654, 0.461, 0.125, 0.051, 0.001, 0.0, 0.011, 0.0, 0.0]}, 
                      {"age/gender": "female", "probability": [0.173, 0.336, 0.539, 0.174, 0.002, 0.0, 0.008, 0.0, 0.0]}]}
-(stream) {"result": [{"age/gender": "child", "probability": [0.042]}, 
-                     {"age/gender": "male", "probability": [0.219]}, 
-                     {"age/gender": "female", "probability": [0.739]}]}
+(stream) {"result": [{"age/gender": "child", "probability": [0.173]}, 
+                     {"age/gender": "male", "probability": [0.654]}, 
+                     {"age/gender": "female", "probability": [0.173]}]}
 ```
 ##### 4. music_genre
 > * Prediction unit (file): Entire audio
@@ -215,25 +215,31 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 > * Sample-rate (stream): 22050Hz
 > * Output examples
 ```
-(file)   {"result": [{"arousal": 0.536, "valence": 0.029}]}
-(stream) {"result": [{"arousal": 0.536, "valence": 0.029}]}
+(file)   {"result": [{"arousal": [0.536], "valence": [0.029]}]}
+(stream) {"result": [{"arousal": [0.536], "valence": [0.029]}]}
 ```
 ##### 6. music_tempo
+
+Note that the outputs denote the top-two tempo candidates in bpm and their corresponding probabilities.
+
 > * Prediction unit (file): Entire audio
 > * Inter-prediction duration (file): N/A
-> * Sample-rate (file): 16000Hz or higher
+> * Sample-rate (file): 22050Hz or higher
 > * Output examples
 ```
 (file)   {"result": [{"tempo": [72.0, 36.0], "probability": [0.881, 0.119]}]}
 (stream) N/A
 ```
 ##### 7. music_key
+
+Note that the output denotes the top-one key candidate and its corresponding probability.
+
 > * Prediction unit (file): Entire audio
 > * Inter-prediction duration (file): N/A
-> * Sample-rate (file): 16000Hz or higher
+> * Sample-rate (file): 22050Hz or higher
 > * Output examples
 ```
-(file)   {"result": [{"key": "Gb", "probability": 0.752}]}
+(file)   {"result": [{"key": ["Gb"], "probability": [0.752]}]}
 (stream) N/A
 ```
 ##### 8. event
@@ -246,6 +252,11 @@ In the examples, we assume that the input is an audio file with a length of 5 se
 (file)   {"result": [{"event": "babycry", "probability": [0.999, 1.0, 0.531, 0.091, 0.486, 0.976, 1.0, 1.0, 0.848]}]}
 (stream) {"result": [{"event": "babycry", "probability": [0.999]}]}
 ```
+
+- Notes
+  - Audio coming directly from microphone may return unstable results.
+  - If the original sampling rate of your audio file does not match our requirement, use it as it is rather than resampling it by yourself.
+
 
 
 
