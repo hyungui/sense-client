@@ -93,7 +93,7 @@ The tutorial for node.js is soon to be updated.
 This is required only for streaming methods.
 
 ```
-$ apt install portaudio19-dev
+$ apt install python-dev portaudio19-dev
 ```
 
 
