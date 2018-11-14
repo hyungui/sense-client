@@ -10,50 +10,62 @@ var cochlear_sense = grpc.load(PROTO_PATH).cochlear.ai
 
 var obj = new Object
 
-function getBytesFromFile(filename){
-    var stext = path.extname(filename).substring(1)
-    var prefix = Buffer.from(stext.length + stext);
-    var filedata = fs.readFileSync(filename);
-    var bytes = Buffer.concat([prefix, filedata]);
 
-    return bytes;
-}
+/**
+ * Async code area 
+ */
 
-function createInput(filename, subtask){
-    return {data:getBytesFromFile(filename),
-        subtask:subtask,
-        apikey:obj.apiKey
+obj.SIZE_1MB = 1024*1024;
+obj.chunksize = obj.SIZE_1MB;
+
+function createInputAsync(buffer, ext, subtask){
+    return {
+        'data':buffer,
+        'subtask':subtask,
+        'apikey':obj.apiKey,
+        'format':ext,
+        'dtype':'',
+        'sr':0
     }
 }
 
-obj['senseEvent'] = function(filename, subtask, callback){
-    obj.client.event_detection(createInput(filename, subtask), callback);
+syncgen_subkey = function(functname){
+    return function(buffer, subtask, ext, callback){
+        call = obj['client'][functname](callback);
+        for(var i = 0; i < (buffer.length)/obj.chunksize; i++){
+            call.write(createInputAsync(buffer.slice(i*obj.chunksize, i*obj.chunksize + obj.chunksize), ext, subtask))
+        }
+        call.end()
+    }
+}
+syncgen = function(functname){
+    return function(buffer, ext, callback){
+        call = obj['client'][functname](callback);
+        for(var i = 0; i < (buffer.length)/obj.chunksize; i++){
+            call.write(createInputAsync(buffer.slice(i*obj.chunksize, i*obj.chunksize + obj.chunksize), ext))
+        }
+        call.end()
+    }
 }
 
+obj['event'] = syncgen_subkey('event');
+obj['ageGender'] = syncgen('ageGender');
+obj['musicKey'] = syncgen('musicKey');
+obj['musicTempo'] = syncgen('musicTempo');
+obj['musicGenre'] = syncgen('musicGenre');
+obj['musicDetector'] = syncgen('musicDetector');
+obj['speechDetector'] = syncgen('speechDetector');
 
-obj['senseKey'] = function(filename, callback){
-    obj.client.key_detection(createInput(filename), callback);
-}
 
-obj['senseMood'] = function(filename, callback){
-    obj.client.mood_detection(createInput(filename), callback);
-}
+/**
+ * Streaming Code area
+ */
 
-obj['senseGenre'] = function(filename, callback){
-    obj.client.genre_detection(createInput(filename), callback);
-}
-obj['senseGender'] = function(filename, callback){
-    obj.client.gender_detection(createInput(filename), callback);
-}
+ 
 
-obj['senseTempo'] = function(filename, callback){
-    obj.client.tempo_detection(createInput(filename), callback);
-}
-
-obj['senseMSO'] = function(filename, callback){
-    obj.client.music_speech_others_detection(createInput(filename), callback);
-}
-
+ /**
+  *  Main area
+  */
 
 function __init__(apiKey, host){
 
@@ -65,7 +77,7 @@ function __init__(apiKey, host){
     if(host)
         obj.host = host;
     else
-        obj.host = 'sense.cochlear.ai:9000';
+        obj.host = 'beta.cochlear.ai:50051';
 
     
     obj.client = new cochlear_sense.cochlear_sense(obj.host,  grpc.credentials.createInsecure());    
