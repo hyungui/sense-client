@@ -1,13 +1,4 @@
 {
-  "name": "gateway",
-  "version": "1.0.0",
-  "description": "GRPC gatgeway for cochlear-sense",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
     "grpc": "^1.14.1",
