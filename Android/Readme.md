@@ -53,6 +53,8 @@ cs.push(bytes);
 현재 사실상 16000hz밖에 지원하지 않는다. 16000hz sample rate + 0.5sec duration + 4 byte bitrate 이므로 0.5초당 32000byte 버퍼가 넘어가야 한다. (한 번 push에 32000byte 버퍼와 크기가 다르다면 문제 발생)
 
 
+현재 상태에서 이렇게 api 호출은 되지만, 결과값은 정상적이지 못하다. 부분 해결 필요.
+
 
    
 ```Java
