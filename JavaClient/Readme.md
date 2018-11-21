@@ -90,7 +90,14 @@ Precisely speaking, using streaming prediction for file like above, is almost me
 AudioFormat format = new AudioFormat(44100, 16, 2, true, true);
 DataLine.Info tinfo = new DataLine.Info(TargetDataLine.class, format);
 TargetDataLine microphone = (TargetDataLine)AudioSystem.getLine(tinfo);
+
+
+targetDataLine.open();
+targetDataLine.start();
+
+
 AudioInputStream ais = new AudioInputStream(microphone);
+
 ```
 
 
