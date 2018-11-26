@@ -59,8 +59,45 @@ cs.push(bytes);
 16000hz sample rate + 0.5sec duration + 4 byte bitrate 이므로 0.5초당 32000byte 버퍼가 넘어가야 한다. (한 번 push에 32000byte 버퍼와 크기가 다르다면 문제 발생)
 
 
+# 결과값 반환
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+       ...
+        ...
 
-마지막으로 사용이 끝나면 아래와 같이 
+        String apiKey = "[YourApiKeyHere]";
+
+
+
+
+        CochlearSenseStreamClient cs = new CochlearSenseStreamClient("beta.cochlear.ai", 50051, apiKey);
+        cs.setListener(new CochlearResultListener() {
+            @Override
+            public void onResult(String result) {
+              //Do something here
+                Log.d("CochlearSenseResult", result);
+            }
+
+            @Override
+            public void onError(String error) {
+              //Do Error handleing here
+                Log.d("CochlearSenseResult", error);
+            }
+
+            @Override
+            public void onComplete() {
+              //Do complete handling here
+
+            }
+        });
+
+        
+    }
+```
+
+
+마지막으로 사용이 끝나면 아래와 같이 연결을 끊는다. 
    
 ```Java
 cs.end();
