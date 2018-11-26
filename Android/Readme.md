@@ -1,11 +1,13 @@
 # 설치
 
-.zip 파일의 내용물들 (.java) 를 안드로이드 프로젝트 내의 com.cochlear.ai 패키지에 넣는다
+
+안드로이드 스튜디오의 프로젝트 내에 com.cochlear.ai 패키지를 생성하고
+폰 리포지토리의 src 경로 내의 .java, .interface 파일들을 com.cochlear.ai 패키지에 넣는다.
 
 
 ## App gradle에서의 설정을 아래와 같이 한다.
 
-minsdkversion 21 이상
+minsdkversion 21 이상으로 할 것
 
 -> dex 64kb 문제 회피
 
@@ -38,24 +40,27 @@ packagingOptions {
 
 # 호출
 
-onCreate 등 처음 호출되는 곳에서 다음과 같이 초기화 한다.
+onCreate 등 처음 호출되는 곳에서 다음과 같이 클라이언트를 초기화 한다.
 
 ```Java
-CochlearSenseStreamClient cs = new CochlearSenseStreamClient("beta.cochlear.ai", 50051, apiKey)
-				.senseMusicDetectorStream();
+CochlearSenseStreamClient cs = new CochlearSenseStreamClient("beta.cochlear.ai", 50051, apiKey);
+
+cs..senseMusicDetectorStream(16000, 16, false, true);
 ```
 
 AudioRecord 콜백 등지에서 byte[]를 받게 되면 다음 과 같이 밀어넣는다.
 
+
+* 현재 16bitrate 만을 지원하고 있다.
+
 ```Java
 cs.push(bytes);
 ```
-현재 사실상 16000hz밖에 지원하지 않는다. 16000hz sample rate + 0.5sec duration + 4 byte bitrate 이므로 0.5초당 32000byte 버퍼가 넘어가야 한다. (한 번 push에 32000byte 버퍼와 크기가 다르다면 문제 발생)
+16000hz sample rate + 0.5sec duration + 4 byte bitrate 이므로 0.5초당 32000byte 버퍼가 넘어가야 한다. (한 번 push에 32000byte 버퍼와 크기가 다르다면 문제 발생)
 
 
-현재 상태에서 이렇게 api 호출은 되지만, 결과값은 정상적이지 못하다. 부분 해결 필요.
 
-
+마지막으로 사용이 끝나면 아래와 같이 
    
 ```Java
 cs.end();
