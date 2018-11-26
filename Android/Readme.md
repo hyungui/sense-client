@@ -1,3 +1,9 @@
+# Note
+
+Cochlear Sense Android Client is not yet complete. If anyone wants to use our android client, please contact shsong@cochlear.ai, and our engineer will tune the client according to your scenario.
+
+
+
 # 설치
 
 
